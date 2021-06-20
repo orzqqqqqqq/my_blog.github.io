@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="[toc] define\ typedef \ using 的用法12template &lt;typename T&gt; using map_int_t &#x3D; std::map&lt;std::string, T&gt;; 上述语句不能在main函数中，编译不过，C++11标准如下：A template-declaration can appear only as a namespace sco">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2021/06/20/C++%E6%98%93%E9%94%99/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[toc] define\ typedef \ using 的用法12template &lt;typename T&gt; using map_int_t &#x3D; std::map&lt;std::string, T&gt;; 上述语句不能在main函数中，编译不过，C++11标准如下：A template-declaration can appear only as a namespace sco">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-20T08:01:14.913Z">
+<meta property="article:modified_time" content="2021-06-20T08:01:15.170Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-C++易错" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/06/20/C++%E6%98%93%E9%94%99/" class="article-date">
+  <time class="dt-published" datetime="2021-06-20T08:01:14.913Z" itemprop="datePublished">2021-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h2 id="define-typedef-using-的用法"><a href="#define-typedef-using-的用法" class="headerlink" title="define\ typedef \ using 的用法"></a>define\ typedef \ using 的用法</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; </span><br><span class="line">using map_int_t = std::map&lt;std::string, T&gt;;</span><br></pre></td></tr></table></figure>
+<p>上述语句不能在main函数中，编译不过，C++11标准如下：<br>A template-declaration can appear only as a namespace scope or class scope declaration.上述为模板别名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//这种用法是错误的，template不能和typedef混用</span><br><span class="line">template &lt;typename T&gt;</span><br><span class="line">typedef std::map&lt;std::string, T&gt; map_int_t;</span><br><span class="line"></span><br><span class="line">void foo(void (*func_call)(int, int));</span><br><span class="line">void foo(func_t&lt;int&gt; func_call);  // error: redefinition</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="copy-constructor与copy-assignment的用法"><a href="#copy-constructor与copy-assignment的用法" class="headerlink" title="copy constructor与copy assignment的用法"></a>copy constructor与copy assignment的用法</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">class callwitch&#123;</span><br><span class="line">      string name ;</span><br><span class="line">      static int objcount;</span><br><span class="line">      public :</span><br><span class="line">             callwitch(const string&amp; na = &quot;&quot;) : name(na) &#123;</span><br><span class="line">                   objcount ++;</span><br><span class="line">                   print(&quot;callwitch(const string&amp;)&quot;);</span><br><span class="line">             &#125;;</span><br><span class="line">             ~callwitch()&#123;</span><br><span class="line">                   objcount --;</span><br><span class="line">                   print(&quot;~callwitch()&quot;);   </span><br><span class="line">             &#125;</span><br><span class="line">             callwitch(const callwitch&amp; obj):name(obj.name) &#123;</span><br><span class="line">                   name = &quot;copy of &quot; + name;</span><br><span class="line">                   objcount ++;</span><br><span class="line">                   print(&quot;copy constructor&quot;);</span><br><span class="line">             &#125;;</span><br><span class="line">             callwitch&amp; operator=(callwitch&amp; obj)&#123;</span><br><span class="line">                   print(&quot;copy assignment&quot;);</span><br><span class="line">             &#125;</span><br><span class="line">             void print(const string&amp; msg = &quot;&quot;)const &#123;</span><br><span class="line">                  if(msg.size() !=0)</span><br><span class="line">                      cout &lt;&lt; msg &lt;&lt; endl ;</span><br><span class="line">               cout &lt;&lt; &#x27;/t&#x27; &lt;&lt; name &lt;&lt; &quot;: &quot; &lt;&lt; &quot;objcount = &quot; &lt;&lt; objcount &lt;&lt; endl;</span><br><span class="line">             &#125;</span><br><span class="line">&#125;;</span><br><span class="line">int callwitch::objcount = 0 ;</span><br><span class="line"></span><br><span class="line">callwitch f(callwitch obj)</span><br><span class="line">&#123;</span><br><span class="line">   cout &lt;&lt; &quot;returning from f()&quot; &lt;&lt; endl;</span><br><span class="line">   return obj ;</span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    callwitch c1(&quot;c1&quot;);</span><br><span class="line">    callwitch c2 = c1 ; //copy constructor called。因为此时c2还未被初始化成为对象(即还未构造出来)，无法调用copy assignment函数！</span><br><span class="line">    callwitch c4 ;</span><br><span class="line">    c4 = c1 ;               //copy assignment called</span><br><span class="line">    c2.print(&quot;call f()&quot;); //这一句有三行，name与objcount没变</span><br><span class="line">    callwitch c3 = f(c1);  //也就是说调用了两次拷贝构造函数，而且用了两次， 一次在f()调用拷贝函数后析构了。</span><br><span class="line">    cout &lt;&lt; &quot;call f(),no need return value&quot; &lt;&lt; endl;</span><br><span class="line">    f(c1);</span><br><span class="line">    system(&quot;PAUSE&quot;);</span><br><span class="line">    return EXIT_SUCCESS;</span><br><span class="line">&#125;</span><br><span class="line">//以下是运行结果：</span><br><span class="line">callwitch(int)</span><br><span class="line">        c1: objcount = 1</span><br><span class="line">copy constructor</span><br><span class="line">        copy of c1: objcount = 2</span><br><span class="line">callwitch(int)</span><br><span class="line">        : objcount = 3</span><br><span class="line">copy assignment</span><br><span class="line">        : objcount = 3</span><br><span class="line">call f()</span><br><span class="line">        copy of c1: objcount = 3</span><br><span class="line">copy constructor</span><br><span class="line">        copy of c1: objcount = 4</span><br><span class="line">returning from f()</span><br><span class="line">copy constructor</span><br><span class="line">        copy of copy of c1: objcount = 5</span><br><span class="line">~callwitch()</span><br><span class="line">        copy of c1: objcount = 4</span><br><span class="line">call f(),no need return value</span><br><span class="line">copy constructor</span><br><span class="line">        copy of c1: objcount = 5</span><br><span class="line">returning from f()</span><br><span class="line">copy constructor</span><br><span class="line">        copy of copy of c1: objcount = 6</span><br><span class="line">~callwitch()</span><br><span class="line">        copy of copy of c1: objcount = 5</span><br><span class="line">~callwitch()</span><br><span class="line">        copy of c1: objcount = 4</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="仿函数为什么需要："><a href="#仿函数为什么需要：" class="headerlink" title="仿函数为什么需要："></a>仿函数为什么需要：</h2><p>RecallFunc() 函数的第三个参数是一个函数指针，用于外部调用，而 IsGreaterThanTen() 函数通常也是外部已经定义好的，它只接受一个参数的函数。如果此时希望将判定的阈值也作为一个变量传入，变为如下函数就不可行了：</p>
+<p>（1）阈值作为函数的局部变量。局部变量不能在函数调用中传递，故不可行；</p>
+<p>（2）函数传参。这种方法我们已经讨论过了，多个参数不适用于已定义好的 RecallFunc() 函数。</p>
+<p>（3）全局变量。我们可以将阈值设置成一个全局变量。这种方法虽然可行，但是不优雅，且非常容易引入 Bug，比如全局变量容易同名，造成命名空间污染。</p>
+<p>模板参数传递给一个对象的实例，这是据我所知不允许。您只能将模板参数传递给模板函数或模板对象。</p>
+<p>另外，函数对象还有一个函数指针无法匹敌的用法：可以用来封装类成员函数指针！<br>因为函数对象可以携带附加数据，而成员函数指针缺少一个类实体(类实例)指针来调用，因此，可以把类实体指针给函数对象保存起来，就可以用于调用对应类实体成员函数了。</p>
+<p>如果基础类和衍生类定义了相同名称的成员函数，那么通过对象指针调用成员函数时，到底调用那个函数要根据指针的原型来确定，而不是根据指针实际指向的对象类型确定。</p>
+<h2 id="多态-amp-虚函数-amp-虚函数表"><a href="#多态-amp-虚函数-amp-虚函数表" class="headerlink" title="多态 &amp; 虚函数 &amp; 虚函数表"></a>多态 &amp; 虚函数 &amp; 虚函数表</h2><p>由于子类B和子类C都是继承于基类A，因此他们都会存在一个虚指针用于指向虚函数表。注意，假如子类B和子类C中不存在虚函数，那么这时他们将共用基类A的一张虚函数表，在B和C中用虚指针指向该虚函数表即可。但是，上面的代码设计时子类B和子类C中都有一个虚函数 vfunc1，因此他们就需要各自产生一张虚函数表，并用各自的虚指针指向该表。由于子类B和子类C都对 vfunc1 作了重载，因此他们有三种不同的实现方式，函数地址也不尽相同，在使用的时候需要从各自类的虚函数表中去查找对应的 vfunc1 地址。</p>
+<p>对于虚函数 vfunc2，两个子类都没有进行重载操作，所以基类A、子类B和子类C将共用一个 vfunc2，该虚函数的地址会分别保存在三个类的虚函数表中，但他们的地址是相同的。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/98776075">https://zhuanlan.zhihu.com/p/98776075</a></p>
+<p>C++的编译器应该是保证虚函数表的指针存在于对象实例中最前面的位置，虚函数分有覆盖和无覆盖的情况</p>
+<p>任何妄图使用父类指针想调用子类中的未覆盖父类的成员函数的行为都会被编译器视为非法</p>
+<p>二、访问non-public的虚函数</p>
+<p>另外，如果父类的虚函数是private或是protected的，但这些非public的虚函数同样会存在于虚函数表中，所以，我们同样可以使用访问虚函数表的方式来访问这些non-public的虚函数，这是很容易做到的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Base &#123;</span><br><span class="line">    private:</span><br><span class="line">        virtual void f() &#123; cout &lt;&lt; &quot;Base::f&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line">class Derive : public Base&#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">typedef void*(Fun)(void);</span><br><span class="line">Fun pFun (Fun) *((int*) *(int*)(&amp;d)+0);</span><br></pre></td></tr></table></figure>
+<p>以上为访问pivate与protected的方式<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cy568searchx/p/3358715.html">https://www.cnblogs.com/cy568searchx/p/3358715.html</a></p>
+<h4 id="以下为多态"><a href="#以下为多态" class="headerlink" title="以下为多态"></a>以下为多态</h4><p>父类和子类各有各的虚表，虚表里面的虚函数指针指向地址可能相同也可能不同，看override情况<br>静态联编也称为编译时多态性，主要通过函数重写实现。动态联编也称为运行时多态性。主要通过继承和虚函数来实现。</p>
+<p>编译器对非虚方法使用静态联编，一个父类指针指向一个子类时，静态联编调用的是父类函数。<br>编译器对虚方法使用动态联编，运行时程序才确定对象的类型，此时一个父类指针指向一个子类，调用的是子类的函数。</p>
+<p>==[前几天面试遇到一个面试官，对方坚持说是一个实例里面一张虚表，就感觉很奇怪，后来问了一些大佬，回复是看编译器实现，两种都可能。不过多数还是一个指针，共用一张虚表的。]==</p>
+<p>overload(重载)(不是多态)，override(覆盖)(运行时多态、虚函数), overwrite(重写)(编译时多态)<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39731083/article/details/81739340">https://blog.csdn.net/weixin_39731083/article/details/81739340</a></p>
+<h2 id="常量表达式-amp-函数"><a href="#常量表达式-amp-函数" class="headerlink" title="常量表达式&amp;函数"></a>常量表达式&amp;函数</h2><ul>
+<li>函数体只有单一的return返回语句。</li>
+<li>函数必须返回值，不能是void函数。</li>
+<li>在使用前必须已有定义。</li>
+<li>return返回语句表达式中不能使用非常量表达式的函数、全局数据，且必须是常量表达式。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">constexpr int GetConstThree();</span><br><span class="line">int nValue = GetConstThree();                   //没问题，</span><br><span class="line">constexpr int nConstValue = GetConstThree();    //有问题</span><br><span class="line">constexpr int GetConstThree()</span><br><span class="line">&#123;</span><br><span class="line">    return 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>3.这里我们声明了一个常量表达式函数GetConstThree，在定义函数之前，我们定义了变量nValue和常量表达式nConstValue,在定义nValue时，编译器将GetConstThree()函数转化为一个函数调用，而“函数调用”是指的运行时的过程，这时对于GetConstThree这样的编译时函数已经获得了值，所有所没有问题。而nConstValue要求使用GetConstThree的值，但此值还没有进行编译时计算，所以有问题。</p>
+<p>4.这样做的意义非常明显，即如果我们要使得GetConstFour()成为一个编译时的常量，那么其return表达式语句就不能包含运行时才能确定的变量或函数，只有这样，编译器才能在编译时进行常量表达式函数的额值计算。</p>
+<h2 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h2><p>C语言中的未定义行为（Undefined Behavior）是指C语言标准未做规定的行为。同时，标准也从没要求编译器判断未定义行为，所以这些行为有编译器自行处理，在不同的编译器可能会产生不同的结果，又或者如果程序调用未定义的行为，可能会成功编译，甚至一开始运行时没有错误，只会在另一个系统上，甚至是在另一个日期运行失败。当一个未定义行为的实例发生时，正如语言标准所说，“什么事情都可能发生”，也许什么都没有发生。<br>所以，避免未定义行为，是个明智的决定。</p>
+<p>所以，避免未定义行为，是个明智的决定。本文将介绍几种未定义行为，同时欢迎读者纠错和补充。</p>
+<p>1.同一运算符中多个操作数的计算顺序（&amp;&amp;、||、?和,运算符除外）<br>例如：x = f()+g(); //错误</p>
+<p>f()和g()谁先计算由编译器决定，如果函数f或g改变了另一个函数所使用变量的值，那么x的结果可能依赖于这两个函数的计算顺序。</p>
+<p>参考： 《C程序设计语言（第2版）》 P43</p>
+<p>2.函数各参数的求值顺序<br>例如： printf(“%d,%d\n”,++n,power(2,n)); //错误</p>
+<p>在不同的编译器可能产生不同的结果，这取决于n的自增运算和power调用谁在前谁在后。</p>
+<p>需要注意的是，不要和逗号表达式弄混，都好表达式可以参考这篇文章：==c语言中逗号运算符和逗号表达式==</p>
+<p>参考： 《C程序设计语言（第2版）》 P43</p>
+<p>3.通过指针直接修改 const 常量的值<br>直接通过赋值修改const变量的值，编译器会报错，但通过指针修改则不会，但不同编译器会产生不同的结果，见下面的分析</p>
+<p>==根据C++标准，对于修改const变量，属于：未定义行为==</p>
+<p>gdb查看其汇编代码（命令：进入gdb，然后输入：disass main）：</p>
+<h2 id="常量字符串"><a href="#常量字符串" class="headerlink" title="常量字符串"></a>常量字符串</h2><p>C++ 的string 更类似于java的 stringbuild， const string 像 java 中的string<br>const volatile int i = 10;<br>int <em>pi = (int</em>)(&amp;i);<br>pi是有可能修改成功的，VC6好像不行，VS2010，g++，dev c++可以</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41413441/article/details/80860135">https://blog.csdn.net/weixin_41413441/article/details/80860135</a></p>
+<h2 id="拷贝构造函数"><a href="#拷贝构造函数" class="headerlink" title="拷贝构造函数"></a>拷贝构造函数</h2><p>拷贝构造函数的参数使用引用类型不是为了减少一次内存拷贝， 而是<br>==避免拷贝构造函数无限制的递归下去。==<br>C++可以在堆中建立对象也可以在栈中分配对象。而在java中通常类的对象都分配在堆中，对象的回收由虚拟机的GC垃圾回收机制决定。</p>
+<p>C++在用类作为函数的返回值时调用了类的拷贝构造函数，<br>==而且该拷贝构造函数是在堆上分配存储空间==</p>
+<p>直接用malloc而不用new的话，是不会调用==成员变量的构造函数的==，也就是说成员变量是基本类型(int,double)之类的就ok</p>
+<p>对象指针返回的是栈上的对象，在函数调用结束后已经销毁了，对象指针即为野指针。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">student* setname(string name)</span><br><span class="line">&#123;</span><br><span class="line">    student* stu=(student*)malloc(sizeof(student));</span><br><span class="line">    new(stu) student;  //stu为指针</span><br><span class="line">    stu-&gt;age=12;</span><br><span class="line">    stu-&gt;name=name;</span><br><span class="line">    return  stu;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoxiaoqiang001/p/5557704.html">https://www.cnblogs.com/xiaoxiaoqiang001/p/5557704.html</a></p>
+<h2 id="Volatile-与-mutable"><a href="#Volatile-与-mutable" class="headerlink" title="Volatile 与 mutable"></a>Volatile 与 mutable</h2><ol>
+<li>中断服务程序中修改的供其它程序检测的变量需要加volatile；</li>
+<li>多任务环境下各任务间共享的标志应该加volatile；</li>
+<li>存储器映射的硬件寄存器通常也要加volatile说明，因为每次对它的读写都可能有不同意义；</li>
+</ol>
+<p>在C++中，mutable是为了突破const的限制而设置的。被mutable修饰的变量，将永远处于可变的状态，即使在一个const函数中，甚至结构体变量或者类对象为const，其mutable成员也可以被修改。mutable在类中只能够修饰非静态数据成员。</p>
+<h2 id="默认构造-amp-析构-amp-虚析构"><a href="#默认构造-amp-析构-amp-虚析构" class="headerlink" title="默认构造 &amp; 析构 &amp; 虚析构"></a>默认构造 &amp; 析构 &amp; 虚析构</h2><p>但是记住,编译器合成的默认构造函数仅仅调用类成员对象的默认构造函数,而不对我们类里面的其它变量做任何初始化操作。</p>
+<p>类成员对象有默认构造函数,那么编译器就需要显式的来调用这个类成员对象的构造函数。而编译器想显式的调用类成员对象的默认构造函数,就需要自己来合成一些代码来调用。但是记住,==编译器合成的默认构造函数仅仅调用类成员对象的默认构造函数,而不对我们类里面的其它变量做任何初始化操作==。</p>
+<p>内嵌的情况与继承的情况都是</p>
+<h4 id="带有虚函数的类"><a href="#带有虚函数的类" class="headerlink" title="带有虚函数的类"></a>带有虚函数的类</h4><p>原因是含有虚函数的类对象都含有一个==虚表指针vptr==，编译器需要对vptr设置初值以满足虚函数机制的正确运行，编译器会把这个设置初值的操作放在默认构造函数中。</p>
+<h4 id="带有虚基类的类"><a href="#带有虚基类的类" class="headerlink" title="带有虚基类的类"></a>带有虚基类的类</h4><p>虚继承也会在子类对象中被合成一个指向虚基类的指针，因此也要被初始化，所以必须要构造函数，虚基类或者虚继承保证子类对象中只有一份虚基类的对象。</p>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><pre><code>相同class的各个objects互为friends(友元)
+</code></pre>
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><pre><code>数组与指针的定义和声明， 不能申明是指针，定义是数组会出错。
+指针的 operator [] 很明显跟数组不一样，详情请看：
+https://www.cnblogs.com/fuao2000/p/11006211.html
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/06/20/C++%E6%98%93%E9%94%99/" data-id="ckq4woa880004louu0py43x2o" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/06/20/Linux%20/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/20/python/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/20/2021%E5%8D%8E%E4%B8%BA%E8%BD%AF%E4%BB%B6%E6%AF%94%E8%B5%9B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/20/C++%20%E7%BC%96%E8%AF%91%E5%99%A8%E9%97%AE%E9%A2%98/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/20/C%20&%20C++/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/20/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/20/Linux%20/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
