@@ -94,7 +94,6 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>[toc]</p>
-<p><a href="#test" target="_self"> 说明文字 </a></p>
 <h3 id="new与operate-new-与-malloc-与-alloc-allocate"><a href="#new与operate-new-与-malloc-与-alloc-allocate" class="headerlink" title="new与operate new 与 malloc 与 alloc::allocate"></a>new与operate new 与 malloc 与 alloc::allocate</h3><p>&emsp;&emsp;指针不能调用构造函数，此过程由编译器完成，可以调用析构函数。</p>
 <p>不同的编译器的底层实现可能是不一样的，编译器：VC6，GCC。 VC6可能成功，GCC可能失败</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pc = static_cast&lt;Complex*&gt;(mem);</span><br><span class="line">pc-&gt;Complex::Complex(1,2)</span><br></pre></td></tr></table></figure>
@@ -111,7 +110,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//分配是有cookie, cookie记录区块大小， 去除的话，区块大小要一致且已知</span><br><span class="line">int *pi = new int[10];</span><br><span class="line">delete pi;   //这里不会报错</span><br><span class="line">//整数(int)没有异议，其他Object可能会有异议</span><br></pre></td></tr></table></figure>
 <p>。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">new允许讲object建构与allocate memory中 </span><br><span class="line">char *buf = new char[sizeof(Complex)*3]</span><br><span class="line">Complex* pc = new(buf)Complex(1, 2);  //buf为已经得到的内存</span><br><span class="line">...</span><br><span class="line">delete [] buf;</span><br></pre></td></tr></table></figure>
-<p><span id = "test"><font color = "red"> 跳转位置 </font></span><br>上述编译后：</p>
+<p>上述编译后：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void mem = operator new(sizeof(Complex), buf);</span><br><span class="line">pc = static_cast&lt;Complex*&gt;(mem);</span><br><span class="line">pc-&gt;Complex::Complex(1,2);</span><br></pre></td></tr></table></figure>
 <p>一块内存分配有上下两个cookie，上下4字节，共八字节。可以取消重载operator new, 来取消cookie所占的内存</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">一般不改::operator new(size_t) 因为影响非常大</span><br><span class="line">foo 一个随意的空间名</span><br><span class="line">一般改Foo::operator new(size_t)</span><br><span class="line">容器一般为</span><br><span class="line">T *p = allocate();</span><br><span class="line">deallocate p;</span><br><span class="line">上述两句一般调用 std::allocator</span><br></pre></td></tr></table></figure>
